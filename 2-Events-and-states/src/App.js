@@ -6,13 +6,13 @@ function App() {
   const expenses = [
     {
       id: 1,
-      date: new Date(),
+      date: new Date(2019, 8, 10),
       title: 'Car',
       amount: 25
     },
     {
       id: 2,
-      date: new Date(),
+      date: new Date(2020, 5, 11),
       title: 'Taxesss',
       amount: 3400
     },
