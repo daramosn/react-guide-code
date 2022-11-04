@@ -25,23 +25,9 @@ const ExpenseForm = (props) => {
     };
     const dateChangeHandler = (event) => {
         setEnteredDate(event.target.value);
-        // setUserInput({
-        //     ...userInput,
-        //     enteredDate: event.target.value
-        // });
-        // setUserInput((prevState) => {
-        //     return { ...prevState, enteredDate: event.target.value };
-        // });
     };
     const amountChangeHandler = (event) => {
         setEnteredAmount(event.target.value);
-        // setUserInput({
-        //     ...userInput,
-        //     enteredAmount: event.target.value
-        // });
-        // setUserInput((prevState) => {
-        //     return { ...prevState, enteredAmount: event.target.value };
-        // });
     };
 
     const submitHandler = (event) => {
@@ -50,13 +36,14 @@ const ExpenseForm = (props) => {
         const expenseData = {
             title: enteredTitle,
             date: new Date(enteredDate),
-            amount: enteredAmount
+            amount: +enteredAmount
         };
 
         props.onSaveExpenseData(expenseData);
         setEnteredTitle('');
         setEnteredDate('');
         setEnteredAmount('');
+        props.notEditing();
     };
 
     return (
@@ -76,6 +63,7 @@ const ExpenseForm = (props) => {
                 </div>
             </div>
             <div className="new-expense__actions">
+                <button type="button" onClick={props.notEditing}>Cancel</button>
                 <button type="submit">Add expense</button>
             </div>
         </form>
