@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import axios from 'axios';
 
 import Modal from '../UI/Modal';
 import CartContext from '../../store/cart-context';
@@ -15,7 +16,6 @@ const Cart = (props) => {
 
     const cartItemRemoveHandler = (id) => {
         cartCtx.removeItem(id);
-
     };
     const cartItemAddHandler = (item) => {
         cartCtx.addItem({ ...item, amount: 1 });
@@ -28,6 +28,19 @@ const Cart = (props) => {
 
     const orderHandler = () => {
         setIsCheckout(true);
+    };
+
+    const submitOrderHandler = async (userData) => {
+        try {
+            const responseData = await axios.post('https://react-foodapp-b526b-default-rtdb.firebaseio.com/orders.json', {
+                user: userData,
+                orderedItems: cartCtx.items,
+            })
+            console.log(responseData);
+            cartCtx.reset();
+        } catch (error) {
+            console.log('ERROR ' + error);
+        }
     };
 
     const cartActions = (
@@ -46,7 +59,7 @@ const Cart = (props) => {
                 <span>Total amount </span>
                 <span>{totalAmount}</span>
             </div>
-            {isCheckout && <Checkout onCancel={props.onCloseModal} />}
+            {isCheckout && <Checkout onCancel={props.onCloseModal} onConfirm={submitOrderHandler} />}
             {!isCheckout && cartActions}
         </Modal>
     );
